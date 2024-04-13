@@ -1,0 +1,18 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+
+<PageTitle>Kanji King</PageTitle>
+
+<h1>Main Menu</h1>
+
+<button @onclick="NewGame_OnClick">New Game</button>
+<button>Settings</button>
+<button>Quit</button>
+
+@code{
+
+    private void NewGame_OnClick()
+    {
+        NavigationManager.NavigateTo("/newgamepage");
+    }
+}

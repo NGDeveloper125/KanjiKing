@@ -1,0 +1,44 @@
+@page "/newgame/gamepage"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<h1>Kanji King</h1>
+<h2>Radicals Game</h2>
+
+<p>game level: @GameLevel</p>
+
+<div class="element-group">
+    <h3>@Kanji</h3>
+    <div class="input-row">
+        <label for="hiragana-textbox">Hiragana: </label>
+        <input type="text" id="hiragana-textbox" @bind="hiraganaInput" disabled="@hiraganaIsDiasble">
+        <span>@hiraganaMark</span>
+    </div>
+    <div class="input-row">
+        <label for="english-textbox">English: </label>
+        <input type="text" id="english-textbox" @bind="englishInput" disabled="@englishIsDiasble">
+        <span>@englishMark</span>
+    </div>
+    <button @onclick="OnClick_CheckAnswer">Check</button>
+</div>
+
+@code{
+    string GameLevel;
+    string Kanji;
+    bool englishIsDiasble; 
+    bool hiraganaIsDiasble; 
+    int answerStep; 
+    string hiraganaInput; 
+    string englishInput; 
+    string hiraganaMark; 
+    string englishMark;
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    public void OnClick_CheckAnswer()
+    {
+        
+    }
+}    
