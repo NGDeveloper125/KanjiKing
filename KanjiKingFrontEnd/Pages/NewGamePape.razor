@@ -1,0 +1,53 @@
+@page "/newgamepage"
+
+@inject NavigationManager NavigationManager
+
+<h1>Kanji King</h1>
+<h3>Please select your Game!</h3>
+
+<ul>
+    <li>    
+        <input type="radio" id="radicals" name="GameOptions" @onclick="() => GameOption_OnClick(1)">
+        <label for="Radicals">Radicals</label>
+    </li>
+    <li>    
+        <input type="radio" id="basicKanjis" name="GameOptions" @onclick="() => GameOption_OnClick(2)">
+        <label for="Basic Kanjis">Basic Kanjis</label>
+    </li>
+    <li>    
+        <input type="radio" id="words" name="GameOptions" @onclick="() => GameOption_OnClick(3)">
+        <label for="Words">Words</label>
+    </li>
+</ul>
+
+<h3>Please select your Game Difficulity!</h3>
+<ul>
+    <li>    
+        <input type="radio" id="easy" name="LevelOptions" @onclick="() => LevelOption_OnClick(1)">
+        <label for="Easy">Easy</label>
+    </li>
+    <li>    
+        <input type="radio" id="medium" name="LevelOptions" @onclick="() => LevelOption_OnClick(2)">
+        <label for="Medium">Medium</label>
+    </li>
+    <li>    
+        <input type="radio" id="hard" name="LevelOptions" @onclick="() => LevelOption_OnClick(3)">
+        <label for="Hard">Hard</label>
+    </li>
+</ul>
+
+<button @onclick="StartGame_OnClick">Start Game!</button>
+@code{
+    
+    private int selected = 1;
+    private void GameOption_OnClick(int option) => selected = option;
+
+    private int levelSelected = 1;
+
+    private void LevelOption_OnClick(int level) => levelSelected = level;
+
+    private void StartGame_OnClick()
+    {
+        NavigationManager.NavigateTo($"/newgame/gamepage?gameLevel={levelSelected}&gameType={selected}");
+    }
+}

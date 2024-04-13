@@ -1,0 +1,149 @@
+@page "/newgame/gamepage"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<h1>Kanji King</h1>
+<h2>Radicals Game</h2>
+
+<p>game level: @gamePageModel.Level</p>
+
+<div class="element-group">
+    <h3>@gamePageModel.CurrentRound.Kanji</h3>
+    <div class="input-row">
+        <label for="hiragana-textbox">Hiragana: </label>
+        <input type="text" id="hiragana-textbox" @bind="hiraganaInput" disabled="@hiraganaIsDiasble">
+        <span>@hiraganaMark</span>
+    </div>
+    <div class="input-row">
+        <label for="english-textbox">English: </label>
+        <input type="text" id="english-textbox" @bind="englishInput" disabled="@englishIsDiasble">
+        <span>@englishMark</span>
+    </div>
+    <button @onclick="OnClick_CheckAnswer">Check</button>
+</div>
+
+@code{
+    bool englishIsDiasble; 
+    bool hiraganaIsDiasble; 
+    int answerStep; 
+    string hiraganaInput; 
+    string englishInput; 
+    string hiraganaMark; 
+    string englishMark;
+    GamePageModel gamePageModel;
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var gameLevel = query["gameLevel"];
+        var gameType = query["gameType"];
+
+        gamePageModel = await GamePageModelFactory.GenerateNewGamePageModel(HttpClient, gameType!, int.Parse(gameLevel!));
+        if(gamePageModel is null) 
+        {
+            HandlePageDataNotFound();
+            return;
+        }
+
+        InitializedPage();
+    }
+
+    private void HandlePageDataNotFound()
+    {
+
+    }
+
+    private void InitializedPage()
+    {
+        RefreshPage(); 
+    }
+
+    private void RefreshPage()
+    {
+        answerStep = 1;
+        englishIsDiasble = true;
+        hiraganaIsDiasble = false;
+        englishInput = string.Empty;
+        hiraganaInput = string.Empty;
+        hiraganaMark = "?";
+        englishMark = "?";
+    }
+
+    private async Task OnClick_CheckAnswer()
+    {
+        switch(answerStep)
+        {
+            case 1:
+                await ValidateHiragana();
+                break;
+            case 2:
+               await ValidateEnglish();
+                break;
+        }
+    }
+
+    private async Task ValidateHiragana()
+    {
+        if(hiraganaInput == currentRound.Hiragana)
+        {
+            answerStep = 2;
+            hiraganaIsDiasble = true;
+            englishIsDiasble = false;
+            hiraganaMark = "✓";
+        }
+        else
+        {
+            hiraganaIsDiasble = true;
+            hiraganaMark = "✗";
+            await Task.Delay(2000);
+            StartNewRound(false);
+        }   
+    }
+
+    private void StartNewRound(bool isRight)
+    {
+        Result result = RoundHandler.ProcessRound(game, isRight);
+        if(!result.success) HandleIssue();
+        game = (result.Entity as Game)!;
+        if(!game.IsOver) 
+        {
+            GameOver();
+            return;
+        }
+
+        RefreshPage();
+    }
+    private async Task ValidateEnglish()
+    {
+        if(englishInput == currentRound.English)
+        {
+            englishMark = "✓";
+            englishIsDiasble = true;
+            PlaySound();
+            await Task.Delay(2000);
+            StartNewRound(true);
+        }
+        else
+        {
+            englishMark = "✗";
+            englishIsDiasble = true;
+            PlaySound();
+            await Task.Delay(2000);
+            StartNewRound(true);
+        }
+    }
+
+    private void PlaySound()
+    {
+
+    }
+
+    private void GameOver()
+    {
+
+    }
+    private void HandleIssue()
+    {
+
+    }
+}    

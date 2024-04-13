@@ -1,0 +1,82 @@
+[
+    {
+        "GameType" : "Radicals",
+        "Rounds":  
+        [
+            {
+                "Kanji" : "KanjiTest1",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest2",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest3",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest4",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest5",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest6",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest7",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest8",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest9",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest10",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest11",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            },
+            {
+                "Kanji" : "KanjiTest12",
+                "Hiragana" : "Test",
+                "English" : "Test"
+            }
+        ]
+    },
+    {
+        "GameType" : "Basic Kanjis",
+        "Rounds" :
+        [
+
+        ]
+    },
+    {
+        "GameType" : "Words",
+        "Rounds" :
+        [
+
+        ]
+    }
+]
