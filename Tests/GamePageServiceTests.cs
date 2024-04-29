@@ -12,7 +12,7 @@ public class GamePageServiceTests
     {
         List<GameData> gamesData = null;
 
-        Result result = GamePageService.GetNewGameByType(GameType.Radicals, gamesData);
+        Result result = GamePageService.GetNewGameByType("1", gamesData);
 
         result.seccuss.Should().BeFalse();
     }
@@ -22,7 +22,7 @@ public class GamePageServiceTests
     {
         List<GameData> gamesData = new List<GameData>();
 
-        Result result = GamePageService.GetNewGameByType(GameType.Radicals, gamesData);
+        Result result = GamePageService.GetNewGameByType("1", gamesData);
 
         result.seccuss.Should().BeFalse();
     }
@@ -32,7 +32,7 @@ public class GamePageServiceTests
     {
         List<GameData> gamesData = GenerateValidGamesData();
         
-        Result result = GamePageService.GetNewGameByType(GameType.Radicals, gamesData);
+        Result result = GamePageService.GetNewGameByType("1", gamesData);
 
         result.seccuss.Should().BeTrue();
         Game game = (result.Entity as Game)!;
@@ -44,11 +44,12 @@ public class GamePageServiceTests
     {
         Game game = GenerateGameWithTwoRoundsInRounds();
 
-        Result result = GamePageService.GetNextRound(false, game);
+        Result result = GamePageService.GetNextRound(true, game);
 
         result.seccuss.Should().BeTrue();
         game = (result.Entity as Game)!;
         game.IsOver.Should().BeFalse();
+        game.Rounds.Count.Should().BeGreaterThan(1);
         game.CurrentRound.RoundId.Should().Be(2);
     }
 
@@ -80,7 +81,7 @@ public class GamePageServiceTests
     }
 
     [Fact]
-    public void GetNextRound_ReturnsNewRoundFromNewSubGroup_WhenAnswerIsTrueAndThereAreNoMoreRoundsInRounds()
+    public void GetNextRound_ReturnsNewRoundFromNewSubGroup_WhenAnswerIsTrueAndThereAreNoMoreRoundsInSubGroup()
     {
         Game game = GenerateGameWithTwoSubGroupsAndOneRoundInRounds();
 
@@ -89,6 +90,7 @@ public class GamePageServiceTests
         result.seccuss.Should().BeTrue();
         game = (result.Entity as Game)!;
         game.IsOver.Should().BeFalse();
+        game.Rounds.Count.Should().BeGreaterThan(1);
         game.CurrentSubGroupId.Should().Be(2);
     }
 
@@ -103,6 +105,7 @@ public class GamePageServiceTests
         game = (result.Entity as Game)!;
         game.IsOver.Should().BeFalse();
         game.CurrentGroupId.Should().Be(2);
+        game.Rounds.Count().Should().Be(2);
     }
 
     [Fact]
@@ -120,14 +123,18 @@ public class GamePageServiceTests
     {
         Round round1 = new Round(false, 1, "test", "test", "test");
         Round round2 = new Round(false, 2, "test", "test", "test");
+        SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1, round2});
+        Group group = new Group(false, 1, [1]); 
         List<Round> rounds = new List<Round>{round1, round2};
-        return new Game(false, GameType.Radicals, new List<Group>(), 1, new List<SubGroup>(), 1, rounds, round1);
+        return new Game(false, GameType.Radicals, [group], 1, [subGroup1], 1, rounds, round1);
     }
     private static Game GenerateGameWithOneRoundInRounds()
     {
         Round round1 = new Round(false, 1, "test", "test", "test");
         List<Round> rounds = new List<Round>{round1};
-        return new Game(false, GameType.Radicals, new List<Group>(), 1, new List<SubGroup>(), 1, rounds, round1);
+        SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1});
+        Group group = new Group(false, 1, [1]); 
+        return new Game(false, GameType.Radicals, [group], 1, [subGroup1], 1, rounds, round1);
     }
     private static Game GenerateGameWithTwoSubGroupsAndOneRoundInRounds()
     {
@@ -136,7 +143,7 @@ public class GamePageServiceTests
         Round round2 = new Round(false, 2, "test", "test", "test");
         SubGroup subGroup2 = new SubGroup(false, 2, new List<Round>(){round2});
         Group group = new Group(false, 1, [1,2]); 
-        List<Round> rounds = new List<Round>{round1};
+        List<Round> rounds = new List<Round>{round1, round2};
         return new Game(false, GameType.Radicals, new List<Group>(){group}, 1, new List<SubGroup>(){subGroup1, subGroup2}, 1, rounds, round1);
     }
     private static Game GenerateGameWithTwoGroupsAndOneSubGroupInEachAndOneRoundInRounds()
@@ -147,7 +154,7 @@ public class GamePageServiceTests
         Round round2 = new Round(false, 2, "test", "test", "test");
         SubGroup subGroup2 = new SubGroup(false, 2, new List<Round>(){round2});
         Group group2 = new Group(false, 2, new int[]{subGroup2.SubGroupId});
-        List<Round> rounds = new List<Round>{round1};
+        List<Round> rounds = new List<Round>{round1, round2};
         return new Game(false, GameType.Radicals, new List<Group>(){group1, group2}, 1, new List<SubGroup>(){subGroup1, subGroup2}, 1, rounds, round1);
     }
     private static Game GenerateGameWithFourGroupsAndFourSubGroupInEachAndOneRoundLeftInRounds()
@@ -170,7 +177,7 @@ public class GamePageServiceTests
     private static List<GameData> GenerateValidGamesData()
     {
             GameData gameData = new GameData();
-        gameData.GameType = "Radicals";
+        gameData.GameType = "1";
         RoundDataDto round1 = new RoundDataDto
         {
             Kanji = "",

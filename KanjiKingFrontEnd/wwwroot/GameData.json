@@ -1,6 +1,6 @@
 [
     {
-        "GameType" : "Radicals",
+        "GameType" : "1",
         "Rounds":  
         [
             {
@@ -66,14 +66,14 @@
         ]
     },
     {
-        "GameType" : "Basic Kanjis",
+        "GameType" : "2",
         "Rounds" :
         [
 
         ]
     },
     {
-        "GameType" : "Words",
+        "GameType" : "3",
         "Rounds" :
         [
 

@@ -10,7 +10,6 @@ public static class GameExtensions
         return new Game(IsOver, self.GameType, self.Groups, self.CurrentGroupId, self.SubGroups, self.CurrentSubGroupId, self.Rounds, self.CurrentRound);
     }
 
-    
     public static Game UpdateGame(this Game self, List<Group> groups)
     {
         return new Game(self.IsOver, self.GameType, groups, self.CurrentGroupId, self.SubGroups, self.CurrentSubGroupId, self.Rounds, self.CurrentRound);
@@ -25,9 +24,9 @@ public static class GameExtensions
         return new Game(self.IsOver, self.GameType, groups, group.GroupId, self.SubGroups, self.CurrentSubGroupId, self.Rounds, self.CurrentRound);
     }
     
-    public static Game UpdateGame(this Game self, List<SubGroup> subGroups, SubGroup subGroup)
+    public static Game UpdateGame(this Game self, List<SubGroup> subGroups, int subGroupId)
     {
-        return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, subGroups, subGroup.SubGroupId, self.Rounds, self.CurrentRound);
+        return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, subGroups, subGroupId, self.Rounds, self.CurrentRound);
     }
 
     public static Game UpdateGame(this Game self, List<SubGroup> subGroups)
@@ -35,9 +34,14 @@ public static class GameExtensions
         return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, subGroups, self.CurrentSubGroupId, self.Rounds, self.CurrentRound);
     }
     
-    public static Game UpdateGame(this Game self, SubGroup subGroup)
+    public static Game UpdateGame(this Game self, int subGroupId)
     {
-        return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, self.SubGroups, subGroup.SubGroupId, self.Rounds, self.CurrentRound);
+        return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, self.SubGroups, subGroupId, self.Rounds, self.CurrentRound);
+    }
+
+    public static Game UpdateGame(this Game self, int subGroupId, List<Round> rounds)
+    {
+        return new Game(self.IsOver, self.GameType, self.Groups, self.CurrentGroupId, self.SubGroups, subGroupId, rounds, self.CurrentRound);
     }
 
     public static Game UpdateGame(this Game self, List<Round> rounds, Round round)

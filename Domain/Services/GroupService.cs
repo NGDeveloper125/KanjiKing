@@ -13,7 +13,7 @@ public static class GroupService
         game = game.UpdateGame(group);
         game = SubGroupService.GetNextSubGroup(game);
 
-        Round round = RoundService.GetNextRoundById(game.Rounds, game.CurrentRound)!;
+        Round round = RoundService.GetNextRoundById(game)!;
         return game.UpdateGame(round!);
     }
     private static Game UpdateGroups(Game game)

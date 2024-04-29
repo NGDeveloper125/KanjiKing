@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using Domain.Entities;
+
 namespace Domain.Extensions;
 
 public static class GameDataExtensions
@@ -9,7 +10,7 @@ public static class GameDataExtensions
         List<Round> rounds = ConvertGameDataRoundsToRounds(self.Rounds);
         List<SubGroup> subGroups = SpliteRoundsToSubGroups(rounds);
         List<Group> groups = SpliteSubGroupsToGroups(subGroups);
-        return new Game(false, ConvertStringToGameType(self.GameType), 
+        return new Game(false, self.GameType.ConvertStringToGameType(), 
                         groups, groups[0].GroupId, subGroups,   
                         subGroups[0].SubGroupId, rounds, rounds[0]);
     } 
@@ -76,12 +77,4 @@ public static class GameDataExtensions
         }
         return groups;
     }
-
-    private static GameType ConvertStringToGameType(string gameType) => gameType switch
-    {
-        "Radicals" => GameType.Radicals,
-        "BasicKanjis" => GameType.BasicKanjis,
-        "Words" => GameType.Words,
-        _ => throw new Exception($"{gameType} is not valid game type!") 
-    };
 }

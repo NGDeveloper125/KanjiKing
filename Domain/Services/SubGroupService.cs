@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Domain.Entities;
 using Domain.Extensions;
 
@@ -9,16 +10,16 @@ public static class SubGroupService
     {
         game = UpdateSubGroups(game);
         List<SubGroup> subGroupsOfCurrentGroup = GetSubGroupsByGroupId(game, game.CurrentGroupId);
-        SubGroup subGroup = subGroupsOfCurrentGroup.FirstOrDefault(sbgr => sbgr.SubGroupId != game.CurrentSubGroupId && sbgr.IsOver == false)!;
+        SubGroup subGroup = subGroupsOfCurrentGroup.FirstOrDefault(sbgr => sbgr.IsOver == false)!;
         if(subGroup is not null)
         {
             List<Round> updatedRounds = new List<Round>();
             foreach(Round round in game.Rounds)
             {
                 Round newRound = new Round(false, round.RoundId, round.Kanji, round.Hiragana, round.English);
+                updatedRounds.Add(newRound);
             }
-            updatedRounds.AddRange(subGroup.Rounds);
-            return game.UpdateGame(subGroup);
+            return game.UpdateGame(subGroup.SubGroupId, updatedRounds);
         }
         else
         {
@@ -27,7 +28,8 @@ public static class SubGroupService
     }
     private static Game UpdateSubGroups(Game game)
     {
-        SubGroup updatedSubGroup = new SubGroup(true, game.CurrentSubGroupId, GetSubGroupRoundsById(game, game.CurrentSubGroupId));
+        SubGroup currentSubGroup = GetCurrentSubGroup(game)!;
+        SubGroup updatedSubGroup = new SubGroup(true, currentSubGroup.SubGroupId, GetSubGroupRoundsById(game, currentSubGroup.SubGroupId));
         List<SubGroup> updatedSubGroups = game.SubGroups.Where(sg => sg.SubGroupId != updatedSubGroup.SubGroupId).ToList();
         updatedSubGroups.Add(updatedSubGroup);
         return game.UpdateGame(updatedSubGroups);
@@ -42,5 +44,10 @@ public static class SubGroupService
     {
         Group group = game.Groups.FirstOrDefault(gr => gr.GroupId == groupId)!;
         return game.SubGroups.Where(sbg => group.SubGroupsIds.Contains(sbg.SubGroupId)).ToList();
+    }
+
+    private static SubGroup? GetCurrentSubGroup(Game game)
+    {
+        return game.SubGroups.FirstOrDefault(sb => sb.SubGroupId == game.CurrentSubGroupId);
     }
 }
