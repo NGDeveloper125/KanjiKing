@@ -1,12 +1,13 @@
+@using Domain.Services
+@using Domain.Entities
+@using Domain.Extensions
 @page "/newgame/gamepage"
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
+
 <h1>Kanji King</h1>
 <h2>Radicals Game</h2>
-
-<p>game level: @GameLevel</p>
-
 <div class="element-group">
     <h3>@Kanji</h3>
     <div class="input-row">
@@ -27,18 +28,111 @@
     string Kanji;
     bool englishIsDiasble; 
     bool hiraganaIsDiasble; 
-    int answerStep; 
+    bool firstAnswer; 
     string hiraganaInput; 
     string englishInput; 
     string hiraganaMark; 
     string englishMark;
+    Game game;
     protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        string gameLevel = query["gameLevel"];
+        string gameType = query["gameType"];
+        List<GameData> gamesData = await DataBaseService.GetGamesData(HttpClient);
+        Result result = GamePageService.GetNewGameByType(gameType, gamesData);
+        if(!result.seccuss)
+        {
+            HandleDataFailure();
+            return;
+        }
+        game = (result.Entity as Game)!;
+        InitializedPage();
+    }
+
+    private void HandleDataFailure()
     {
 
     }
 
-    public void OnClick_CheckAnswer()
+    private void InitializedPage()
     {
+        RefreshPage(false); 
+    }
+
+    private void RefreshPage(bool IsRight)
+    {
+        Result result = GamePageService.GetNextRound(IsRight, game);
+        if(!result.seccuss)
+        {
+            HandleDataFailure();
+        }
+        else
+        {
+            game = (result.Entity as Game)!;
+            if(game.IsOver)
+            {
+                GameOver();
+            }
+            else
+            {
+                firstAnswer = true;
+                Kanji = game.CurrentRound.Kanji;
+                englishIsDiasble = true;
+                hiraganaIsDiasble = false;
+                englishInput = string.Empty;
+                hiraganaInput = string.Empty;
+                hiraganaMark = "?";
+                englishMark = "?";  
+            }
+            StateHasChanged();
+        }
         
+    }
+
+    public async void OnClick_CheckAnswer()
+    {
+        if(firstAnswer)
+        {
+            if(hiraganaInput != game.CurrentRound.Hiragana)
+            {
+                hiraganaIsDiasble = true;
+                hiraganaMark = "✗";
+                await Task.Delay(1500);
+                RefreshPage(false);
+            }
+            else
+            {
+                englishIsDiasble = false;
+                hiraganaIsDiasble = true;
+                hiraganaMark = "✓";
+                firstAnswer = false;
+            }
+        }
+        else
+        {
+            if(englishInput != game.CurrentRound.English)
+            {
+                englishIsDiasble = true;
+                englishMark = "✗";
+                await Task.Delay(1500);
+                firstAnswer = true;
+                RefreshPage(false);
+            }
+            else
+            {
+                englishIsDiasble = true;
+                englishMark = "✓";
+                await Task.Delay(1500);
+                firstAnswer = true;
+                RefreshPage(true);
+            }
+        }
+    }
+
+    private void GameOver()
+    {
+        Kanji = "GameOver!";
     }
 }    

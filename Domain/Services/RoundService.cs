@@ -19,26 +19,46 @@ public static class RoundService
         return updatedRounds;
     }
 
-    public static Round? GetNextRoundById(List<Round> rounds, Round previousRound)
+    public static Round? GetNextRoundById(Game game)
     {
-        List<Round> releventRounds; 
-        if(previousRound is not null)
-        {
-            releventRounds = rounds.Where(rnd => rnd.RoundId != previousRound.RoundId && rnd.IsOver == false).ToList();
-        } 
-        else
-        {
-            releventRounds = rounds.Where(rnd => rnd.IsOver == false).ToList();
-        }
+        List<Round> releventRounds = GetReleventRounds(game);
+        
         Round? newCurrentRound = null; 
         if(releventRounds.Any())
         {
             Random random = new Random();
-            newCurrentRound = rounds.Count == 0 ? releventRounds[random.Next(0, rounds.Count)] : releventRounds[0];
+            int randomIndex = random.Next(0, releventRounds.Count);
+            newCurrentRound = releventRounds.Count > 0 ? releventRounds[randomIndex] : releventRounds[0];
         }
-        if(newCurrentRound is not null) return newCurrentRound;
-    
-        newCurrentRound = rounds.FirstOrDefault(rnd => rnd.IsOver == false)!;
-        return newCurrentRound;    
+        return newCurrentRound; 
+    }
+
+    public static List<Round> GetReleventRounds(Game game)
+    {
+        Group? group = game.Groups.FirstOrDefault(gr => gr.GroupId == game.CurrentGroupId);
+        int[] ids = group.SubGroupsIds;
+        List<SubGroup> subGroups = new List<SubGroup>();
+        foreach(int id in ids)
+        {
+            SubGroup? s = game.SubGroups.FirstOrDefault(sbg => sbg.SubGroupId == id && (sbg.IsOver == true || sbg.SubGroupId == game.CurrentSubGroupId));
+            if(s is not null)
+            {
+                subGroups.Add(s);
+            }
+        }
+        List<Round> SubGroupsRounds = new List<Round>();
+        foreach (var subGroup in subGroups)
+        {
+            if (subGroup.Rounds != null)
+            {
+                SubGroupsRounds.AddRange(subGroup.Rounds);
+            }
+        } 
+        int[] SubGroupsRoundsIds = SubGroupsRounds.Select(rnd => rnd.RoundId).ToArray();
+        IEnumerable<Round> Rounds = game.Rounds.Where(rnd => SubGroupsRoundsIds.Contains(rnd.RoundId));
+        
+        List<Round> releventRounds = Rounds.Where(rnd => rnd.RoundId != game.CurrentRound.RoundId && rnd.IsOver == false).ToList();
+
+        return releventRounds.Any() ? releventRounds : releventRounds = Rounds.Where(rnd => rnd.IsOver == false).ToList();
     }
 }

@@ -4,7 +4,7 @@ namespace Domain.Services;
 
 public static class GamePageService
 {
-    public static Result GetNewGameByType(GameType gameType, List<GameData>? gamesData)
+    public static Result GetNewGameByType(string gameType, List<GameData>? gamesData)
     {
         try
         {
@@ -29,21 +29,21 @@ public static class GamePageService
             List<Round> updatedRounds = RoundService.UpdateGameRounds(game);
             game = game.UpdateGame(updatedRounds); 
         }
-        Round? round = RoundService.GetNextRoundById(game.Rounds, game.CurrentRound);
+        Round? round = RoundService.GetNextRoundById(game);
         if(round is not null) return new Result(true, game.UpdateGame(round));
 
         int previousSubGroupId = game.CurrentSubGroupId;
         game = SubGroupService.GetNextSubGroup(game);
         if(game.CurrentSubGroupId != previousSubGroupId) 
         {
-            round = RoundService.GetNextRoundById(game.Rounds, game.CurrentRound);
+            round = RoundService.GetNextRoundById(game);
             return  new Result(true, game.UpdateGame(round!));
         }
 
         game = GroupService.GetNextGroup(game);
         if(!game.IsOver)
         {
-            round = RoundService.GetNextRoundById(game.Rounds, game.CurrentRound);
+            round = RoundService.GetNextRoundById(game);
             return  new Result(true, game.UpdateGame(round!));
         }
         return new Result(true, game);
