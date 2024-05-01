@@ -9,4 +9,4 @@ public record Game(bool IsOver, GameType GameType,
                     List<Round> Rounds, Round CurrentRound) : IEntity;
 public record Group(bool IsOver, int GroupId, int[] SubGroupsIds) : IEntity;
 public record SubGroup(bool IsOver, int SubGroupId, List<Round> Rounds) : IEntity;
-public record Round(bool IsOver, int RoundId, string Kanji, string Hiragana, string English) : IEntity;
+public record Round(bool IsOver, int RoundId, string Kanji, string Hiragana, string English, string Sound) : IEntity;

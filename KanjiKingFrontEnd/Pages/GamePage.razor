@@ -23,7 +23,10 @@
     <button @onclick="OnClick_CheckAnswer">Check</button>
 </div>
 
+<Audio @ref="audioComponent"/>
+
 @code{
+    Audio audioComponent;
     string GameLevel;
     string Kanji;
     bool englishIsDiasble; 
@@ -34,6 +37,7 @@
     string hiraganaMark; 
     string englishMark;
     Game game;
+    int currentGroupId;
     protected override async Task OnInitializedAsync()
     {
         var uri = new Uri(NavigationManager.Uri);
@@ -48,6 +52,7 @@
             return;
         }
         game = (result.Entity as Game)!;
+        currentGroupId = game.CurrentGroupId;
         InitializedPage();
     }
 
@@ -61,7 +66,7 @@
         RefreshPage(false); 
     }
 
-    private void RefreshPage(bool IsRight)
+    private async void RefreshPage(bool IsRight)
     {
         Result result = GamePageService.GetNextRound(IsRight, game);
         if(!result.seccuss)
@@ -77,6 +82,13 @@
             }
             else
             {
+                if(currentGroupId != game.CurrentGroupId)
+                {
+                    AnnounceNewGroup();
+                    StateHasChanged();
+                    await Task.Delay(1700);
+                    currentGroupId = game.CurrentGroupId;
+                }
                 firstAnswer = true;
                 Kanji = game.CurrentRound.Kanji;
                 englishIsDiasble = true;
@@ -99,7 +111,9 @@
             {
                 hiraganaIsDiasble = true;
                 hiraganaMark = "✗";
-                await Task.Delay(1500);
+                AnnounceWrongAnswer(game.CurrentRound.Hiragana);
+                await PlaySound($"{game.CurrentRound.Sound}.mp3");
+                await Task.Delay(2000);
                 RefreshPage(false);
             }
             else
@@ -108,6 +122,7 @@
                 hiraganaIsDiasble = true;
                 hiraganaMark = "✓";
                 firstAnswer = false;
+                await PlaySound($"{game.CurrentRound.Sound}.mp3");
             }
         }
         else
@@ -116,7 +131,9 @@
             {
                 englishIsDiasble = true;
                 englishMark = "✗";
-                await Task.Delay(1500);
+                AnnounceWrongAnswer(game.CurrentRound.English);
+                await PlaySound($"{game.CurrentRound.Sound}.mp3");
+                await Task.Delay(2000);
                 firstAnswer = true;
                 RefreshPage(false);
             }
@@ -124,11 +141,27 @@
             {
                 englishIsDiasble = true;
                 englishMark = "✓";
-                await Task.Delay(1500);
+                await PlaySound($"{game.CurrentRound.Sound}.mp3");
+                await Task.Delay(2000);
                 firstAnswer = true;
                 RefreshPage(true);
             }
         }
+    }
+
+    private void AnnounceNewGroup()
+    {
+        Kanji = "Good job! Moving to the next group!";
+    }
+
+    private void AnnounceWrongAnswer(string correctAnswer)
+    {
+        Kanji = $"The correct answer is - {correctAnswer}";
+    }
+
+    private async Task PlaySound(string audioUrl)
+    {
+        await audioComponent.Play(audioUrl);
     }
 
     private void GameOver()

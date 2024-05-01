@@ -7,7 +7,7 @@ public static class RoundService
 {
     public static List<Round> UpdateGameRounds(Game game)
     {
-        Round round = new Round(true, game.CurrentRound.RoundId, game.CurrentRound.Kanji, game.CurrentRound.Hiragana, game.CurrentRound.English);
+        Round round = new Round(true, game.CurrentRound.RoundId, game.CurrentRound.Kanji, game.CurrentRound.Hiragana, game.CurrentRound.English, game.CurrentRound.Sound);
         List<Round> rounds = UpdateRounds(game.Rounds, round);
         return rounds;
     }

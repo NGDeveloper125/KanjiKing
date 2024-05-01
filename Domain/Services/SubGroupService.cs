@@ -16,7 +16,7 @@ public static class SubGroupService
             List<Round> updatedRounds = new List<Round>();
             foreach(Round round in game.Rounds)
             {
-                Round newRound = new Round(false, round.RoundId, round.Kanji, round.Hiragana, round.English);
+                Round newRound = new Round(false, round.RoundId, round.Kanji, round.Hiragana, round.English, round.Sound);
                 updatedRounds.Add(newRound);
             }
             return game.UpdateGame(subGroup.SubGroupId, updatedRounds);
