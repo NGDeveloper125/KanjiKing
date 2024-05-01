@@ -12,4 +12,5 @@ public class RoundDataDto
     public string Kanji { get; set; }
     public string Hiragana { get; set; }
     public string English { get; set; }
+    public string Sound { get; set; }
 }

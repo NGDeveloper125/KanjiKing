@@ -21,7 +21,7 @@ public static class GameDataExtensions
         int id = 1;
         foreach(RoundDataDto roundDataDto in roundDataDtos)
         {
-            Round round = new Round(false, id, roundDataDto.Kanji, roundDataDto.Hiragana, roundDataDto.English);
+            Round round = new Round(false, id, roundDataDto.Kanji, roundDataDto.Hiragana, roundDataDto.English, roundDataDto.Sound);
             rounds.Add(round);
             id++;
         }

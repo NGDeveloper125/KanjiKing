@@ -6,62 +6,74 @@
             {
                 "Kanji" : "KanjiTest1",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest2",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest3",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest4",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest5",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest6",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest7",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest8",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest9",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest10",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest11",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             },
             {
                 "Kanji" : "KanjiTest12",
                 "Hiragana" : "Test",
-                "English" : "Test"
+                "English" : "Test",
+                "Sound" : "Test"
             }
         ]
     },
