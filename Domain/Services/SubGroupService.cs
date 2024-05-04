@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Domain.Entities;
 using Domain.Extensions;
 
@@ -9,7 +8,9 @@ public static class SubGroupService
     public static Game GetNextSubGroup(Game game)
     {
         game = UpdateSubGroups(game);
-        List<SubGroup> subGroupsOfCurrentGroup = GetSubGroupsByGroupId(game, game.CurrentGroupId);
+        var random = new Random();
+        List<SubGroup> subGroupsOfCurrentGroup = GetSubGroupsByGroupId(game, game.CurrentGroupId)
+                                                 .OrderBy(_ => random.Next()).ToList();
         SubGroup subGroup = subGroupsOfCurrentGroup.FirstOrDefault(sbgr => sbgr.IsOver == false)!;
         if(subGroup is not null)
         {
