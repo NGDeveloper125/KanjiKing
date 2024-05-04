@@ -5,27 +5,36 @@
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
-
-<h1>Kanji King</h1>
-<h2>Radicals Game</h2>
-<div class="element-group">
+<div class="container">
+  <div class="title-container">
+    <div class="title-group">
+      <h1>Kanji King</h1>
+      <h2>Radicals Game</h2>
+    </div>
+    <div class="stats-group">
+      <span>Rounds: @currentRound / @totalRounds</span>
+      <span>Mistakes: @mistakesDone / @mistakesAllowed</span>
+    </div>
+  </div>
+  <div class="element-group">
     <h3>@Kanji</h3>
     <div class="input-row">
-        <label for="hiragana-textbox">Hiragana: </label>
-        <input type="text" id="hiragana-textbox" @bind="hiraganaInput" disabled="@hiraganaIsDiasble">
-        <span>@hiraganaMark</span>
+      <label for="hiragana-textbox">Hiragana: </label>
+      <input type="text" id="hiragana-textbox" @bind="hiraganaInput" disabled="@hiraganaIsDiasble">
+      <span>@hiraganaMark</span>
     </div>
     <div class="input-row">
-        <label for="english-textbox">English: </label>
-        <input type="text" id="english-textbox" @bind="englishInput" disabled="@englishIsDiasble">
-        <span>@englishMark</span>
+      <label for="english-textbox">English: </label>
+      <input type="text" id="english-textbox" @bind="englishInput" disabled="@englishIsDiasble">
+      <span>@englishMark</span>
     </div>
     <button @onclick="OnClick_CheckAnswer">Check</button>
+  </div>
 </div>
-
 <Audio @ref="audioComponent"/>
 
 @code{
+
     Audio audioComponent;
     string GameLevel;
     string Kanji;
@@ -36,8 +45,13 @@
     string englishInput; 
     string hiraganaMark; 
     string englishMark;
+    int totalRounds;
+    int currentRound;
+    int mistakesAllowed;
+    int mistakesDone;
     Game game;
     int currentGroupId;
+    int currentSubGroupId;
     protected override async Task OnInitializedAsync()
     {
         var uri = new Uri(NavigationManager.Uri);
@@ -52,9 +66,18 @@
             return;
         }
         game = (result.Entity as Game)!;
+        mistakesAllowed = GetMistakesAllowed(gameLevel);
         currentGroupId = game.CurrentGroupId;
         InitializedPage();
     }
+
+    private int GetMistakesAllowed(string gameLevel) => gameLevel switch 
+    {
+        "1" => 100,
+        "2" => 50,
+        "3" => 10,
+        _ => throw new Exception($"not valid game level: {gameLevel}") 
+    };
 
     private void HandleDataFailure()
     {
@@ -63,6 +86,8 @@
 
     private void InitializedPage()
     {
+        mistakesDone = 0;
+        currentRound = 1;
         RefreshPage(false); 
     }
 
@@ -89,6 +114,12 @@
                     await Task.Delay(1700);
                     currentGroupId = game.CurrentGroupId;
                 }
+                if(currentSubGroupId != game.CurrentSubGroupId)
+                {
+                    totalRounds = game.GetSubGroupAmountOfRounds();
+                    currentSubGroupId = game.CurrentSubGroupId;
+                    currentRound = 1;
+                }
                 firstAnswer = true;
                 Kanji = game.CurrentRound.Kanji;
                 englishIsDiasble = true;
@@ -96,7 +127,7 @@
                 englishInput = string.Empty;
                 hiraganaInput = string.Empty;
                 hiraganaMark = "?";
-                englishMark = "?";  
+                englishMark = "?";          
             }
             StateHasChanged();
         }
@@ -112,6 +143,7 @@
                 hiraganaIsDiasble = true;
                 hiraganaMark = "✗";
                 AnnounceWrongAnswer(game.CurrentRound.Hiragana);
+                mistakesDone++;
                 await PlaySound($"{game.CurrentRound.Sound}.mp3");
                 await Task.Delay(2000);
                 RefreshPage(false);
@@ -132,6 +164,7 @@
                 englishIsDiasble = true;
                 englishMark = "✗";
                 AnnounceWrongAnswer(game.CurrentRound.English);
+                mistakesDone++;
                 await PlaySound($"{game.CurrentRound.Sound}.mp3");
                 await Task.Delay(2000);
                 firstAnswer = true;
@@ -142,6 +175,7 @@
                 englishIsDiasble = true;
                 englishMark = "✓";
                 await PlaySound($"{game.CurrentRound.Sound}.mp3");
+                currentRound++;
                 await Task.Delay(2000);
                 firstAnswer = true;
                 RefreshPage(true);

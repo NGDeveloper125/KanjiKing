@@ -7,9 +7,10 @@ public static class GameDataExtensions
 {
     public static Game? ConvertGamaDataToGame(this GameData self)
     {
-        List<Round> rounds = ConvertGameDataRoundsToRounds(self.Rounds);
-        List<SubGroup> subGroups = SpliteRoundsToSubGroups(rounds);
-        List<Group> groups = SpliteSubGroupsToGroups(subGroups);
+        Random random = new Random();
+        List<Round> rounds = ConvertGameDataRoundsToRounds(self.Rounds).OrderBy(_ => random.Next()).ToList();
+        List<SubGroup> subGroups = SpliteRoundsToSubGroups(rounds).OrderBy(_ => random.Next()).ToList();
+        List<Group> groups = SpliteSubGroupsToGroups(subGroups).OrderBy(_ => random.Next()).ToList();
         return new Game(false, self.GameType.ConvertStringToGameType(), 
                         groups, groups[0].GroupId, subGroups,   
                         subGroups[0].SubGroupId, rounds, rounds[0]);
@@ -76,5 +77,11 @@ public static class GameDataExtensions
             groups.Add(group);
         }
         return groups;
+    }
+
+    public static int GetRandomIndex(int collectionCount)
+    {
+        Random random = new Random();
+        return random.Next(collectionCount);
     }
 }

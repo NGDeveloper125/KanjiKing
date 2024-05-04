@@ -21,7 +21,7 @@ public static class RoundService
 
     public static Round? GetNextRoundById(Game game)
     {
-        List<Round> releventRounds = GetReleventRounds(game);
+        List<Round> releventRounds = GetReleventRounds(game, true);
         
         Round? newCurrentRound = null; 
         if(releventRounds.Any())
@@ -33,15 +33,15 @@ public static class RoundService
         return newCurrentRound; 
     }
 
-    public static List<Round> GetReleventRounds(Game game)
+    public static List<Round> GetReleventRounds(Game game, bool withoutCurrentRound)
     {
         Group? group = game.Groups.FirstOrDefault(gr => gr.GroupId == game.CurrentGroupId);
         int[] ids = group.SubGroupsIds;
         List<SubGroup> subGroups = new List<SubGroup>();
-        foreach(int id in ids)
+        foreach (int id in ids)
         {
             SubGroup? s = game.SubGroups.FirstOrDefault(sbg => sbg.SubGroupId == id && (sbg.IsOver == true || sbg.SubGroupId == game.CurrentSubGroupId));
-            if(s is not null)
+            if (s is not null)
             {
                 subGroups.Add(s);
             }
@@ -53,12 +53,15 @@ public static class RoundService
             {
                 SubGroupsRounds.AddRange(subGroup.Rounds);
             }
-        } 
+        }
         int[] SubGroupsRoundsIds = SubGroupsRounds.Select(rnd => rnd.RoundId).ToArray();
         IEnumerable<Round> Rounds = game.Rounds.Where(rnd => SubGroupsRoundsIds.Contains(rnd.RoundId));
-        
-        List<Round> releventRounds = Rounds.Where(rnd => rnd.RoundId != game.CurrentRound.RoundId && rnd.IsOver == false).ToList();
 
-        return releventRounds.Any() ? releventRounds : releventRounds = Rounds.Where(rnd => rnd.IsOver == false).ToList();
+        List<Round> releventRounds = Rounds.Where(rnd => rnd.RoundId != game.CurrentRound.RoundId && rnd.IsOver == false).ToList();
+        if (withoutCurrentRound)
+        {
+            return releventRounds.Any() ? releventRounds : releventRounds = Rounds.Where(rnd => rnd.IsOver == false).ToList();
+        }
+        return Rounds.ToList();
     }
 }

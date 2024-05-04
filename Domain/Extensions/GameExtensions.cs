@@ -1,10 +1,15 @@
 
 using Domain.Entities;
+using Domain.Services;
 
 namespace Domain.Extensions;
 
 public static class GameExtensions
 {
+    public static int GetSubGroupAmountOfRounds(this Game self)
+    {
+        return RoundService.GetReleventRounds(self, false).Count;
+    }
     public static Game UpdateGame(this Game self, bool IsOver)
     {
         return new Game(IsOver, self.GameType, self.Groups, self.CurrentGroupId, self.SubGroups, self.CurrentSubGroupId, self.Rounds, self.CurrentRound);
