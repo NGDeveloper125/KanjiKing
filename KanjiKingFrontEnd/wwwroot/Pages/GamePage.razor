@@ -11,6 +11,9 @@
       <h1>Kanji King</h1>
       <h2>Radicals Game</h2>
     </div>
+    <div class="logo-container">
+        <img src="Images/JapImage.jpeg" alt="Game Logo" class="game-logo">
+    </div>
     <div class="stats-group">
       <span>Rounds: @currentRound / @totalRounds</span>
       <span>Mistakes: @mistakesDone / @mistakesAllowed</span>
@@ -18,55 +21,56 @@
   </div>
   <div class="element-group">
     <h3>@Kanji</h3>
-    <div class="input-row">
+    <div class="input-row-Hiragana" hidden="@hideInputElements">
       <label for="hiragana-textbox">Hiragana: </label>
       <input type="text" id="hiragana-textbox" @bind="hiraganaInput" disabled="@hiraganaIsDiasble">
-      <span>@hiraganaMark</span>
+            <span style="color: @GetHiraganaColor()"> @hiraganaMark</span>
     </div>
-    <div class="input-row">
+        <div class="input-row-English" hidden="@hideInputElements">
       <label for="english-textbox">English: </label>
       <input type="text" id="english-textbox" @bind="englishInput" disabled="@englishIsDiasble">
-      <span>@englishMark</span>
+      <span style="color: @GetEnglishColor()">@englishMark</span>
     </div>
-    <button @onclick="OnClick_CheckAnswer">Check</button>
+        <button @onclick="OnClick_CheckAnswer" hidden="@hideInputElements">Check</button>
   </div>
 </div>
 <Audio @ref="audioComponent"/>
 
 @code{
 
-    Audio audioComponent;
-    string GameLevel;
-    string Kanji;
+    Audio? audioComponent;
+    string? GameLevel;
+    string? Kanji;
     bool englishIsDiasble; 
-    bool hiraganaIsDiasble; 
+    bool hiraganaIsDiasble;
+    bool hideInputElements;
     bool firstAnswer; 
-    string hiraganaInput; 
-    string englishInput; 
-    string hiraganaMark; 
-    string englishMark;
+    string? hiraganaInput; 
+    string? englishInput; 
+    string? hiraganaMark; 
+    string? englishMark;
     int totalRounds;
     int currentRound;
     int mistakesAllowed;
     int mistakesDone;
-    Game game;
+    Game? game;
     int currentGroupId;
     int currentSubGroupId;
     protected override async Task OnInitializedAsync()
     {
         var uri = new Uri(NavigationManager.Uri);
         var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        string gameLevel = query["gameLevel"];
-        string gameType = query["gameType"];
-        List<GameData> gamesData = await DataBaseService.GetGamesData(HttpClient);
-        Result result = GamePageService.GetNewGameByType(gameType, gamesData);
+        string? gameLevel = query["gameLevel"];
+        string? gameType = query["gameType"];
+        List<GameData>? gamesData = await DataBaseService.GetGamesData(HttpClient);
+        Result result = GamePageService.GetNewGameByType(gameType!, gamesData);
         if(!result.seccuss)
         {
             HandleDataFailure();
             return;
         }
         game = (result.Entity as Game)!;
-        mistakesAllowed = GetMistakesAllowed(gameLevel);
+        mistakesAllowed = GetMistakesAllowed(gameLevel!);
         currentGroupId = game.CurrentGroupId;
         InitializedPage();
     }
@@ -93,7 +97,12 @@
 
     private async void RefreshPage(bool IsRight)
     {
-        Result result = GamePageService.GetNextRound(IsRight, game);
+        if(mistakesDone >= mistakesAllowed)
+        {
+            GameOver();
+            return;
+        }
+        Result result = GamePageService.GetNextRound(IsRight, game!);
         if(!result.seccuss)
         {
             HandleDataFailure();
@@ -120,6 +129,7 @@
                     currentSubGroupId = game.CurrentSubGroupId;
                     currentRound = 1;
                 }
+                hideInputElements = false;
                 firstAnswer = true;
                 Kanji = game.CurrentRound.Kanji;
                 englishIsDiasble = true;
@@ -131,14 +141,14 @@
             }
             StateHasChanged();
         }
-        
+
     }
 
     public async void OnClick_CheckAnswer()
     {
         if(firstAnswer)
         {
-            if(hiraganaInput != game.CurrentRound.Hiragana)
+            if(hiraganaInput != game!.CurrentRound.Hiragana)
             {
                 hiraganaIsDiasble = true;
                 hiraganaMark = "✗";
@@ -159,7 +169,7 @@
         }
         else
         {
-            if(englishInput != game.CurrentRound.English)
+            if(englishInput != game!.CurrentRound.English)
             {
                 englishIsDiasble = true;
                 englishMark = "✗";
@@ -183,9 +193,25 @@
         }
     }
 
+    private string GetHiraganaColor()
+    {
+        if (hiraganaMark == "✓") return "green";
+        else if (hiraganaMark == "✗") return "red";
+        else return "white";
+
+    }
+
+    private string GetEnglishColor()
+    {
+        if (englishMark == "✓") return "green";
+        else if (englishMark  == "✗") return "red";
+        else return "white";
+    }
+
     private void AnnounceNewGroup()
     {
         Kanji = "Good job! Moving to the next group!";
+        hideInputElements = true;
     }
 
     private void AnnounceWrongAnswer(string correctAnswer)
@@ -195,11 +221,14 @@
 
     private async Task PlaySound(string audioUrl)
     {
-        await audioComponent.Play(audioUrl);
+        await audioComponent!.Play(audioUrl);
     }
 
-    private void GameOver()
+    private async void GameOver()
     {
         Kanji = "GameOver!";
+        hideInputElements = true;
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("/");
     }
 }    
