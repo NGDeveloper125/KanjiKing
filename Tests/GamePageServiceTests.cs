@@ -121,8 +121,8 @@ public class GamePageServiceTests
     }
     private static Game GenerateGameWithTwoRoundsInRounds()
     {
-        Round round1 = new Round(false, 1, "test", "test", "test");
-        Round round2 = new Round(false, 2, "test", "test", "test");
+        Round round1 = new Round(false, 1, "test", "test", "test", "sound");
+        Round round2 = new Round(false, 2, "test", "test", "test", "sound");
         SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1, round2});
         Group group = new Group(false, 1, [1]); 
         List<Round> rounds = new List<Round>{round1, round2};
@@ -130,7 +130,7 @@ public class GamePageServiceTests
     }
     private static Game GenerateGameWithOneRoundInRounds()
     {
-        Round round1 = new Round(false, 1, "test", "test", "test");
+        Round round1 = new Round(false, 1, "test", "test", "test", "sound");
         List<Round> rounds = new List<Round>{round1};
         SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1});
         Group group = new Group(false, 1, [1]); 
@@ -138,9 +138,9 @@ public class GamePageServiceTests
     }
     private static Game GenerateGameWithTwoSubGroupsAndOneRoundInRounds()
     {
-        Round round1 = new Round(false, 1, "test", "test", "test");
+        Round round1 = new Round(false, 1, "test", "test", "test", "sound");
         SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1});
-        Round round2 = new Round(false, 2, "test", "test", "test");
+        Round round2 = new Round(false, 2, "test", "test", "test", "sound");
         SubGroup subGroup2 = new SubGroup(false, 2, new List<Round>(){round2});
         Group group = new Group(false, 1, [1,2]); 
         List<Round> rounds = new List<Round>{round1, round2};
@@ -148,10 +148,10 @@ public class GamePageServiceTests
     }
     private static Game GenerateGameWithTwoGroupsAndOneSubGroupInEachAndOneRoundInRounds()
     {
-        Round round1 = new Round(false, 1, "test", "test", "test");
+        Round round1 = new Round(false, 1, "test", "test", "test", "sound");
         SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1});
         Group group1 = new Group(false, 1, new int[]{subGroup1.SubGroupId});
-        Round round2 = new Round(false, 2, "test", "test", "test");
+        Round round2 = new Round(false, 2, "test", "test", "test", "sound");
         SubGroup subGroup2 = new SubGroup(false, 2, new List<Round>(){round2});
         Group group2 = new Group(false, 2, new int[]{subGroup2.SubGroupId});
         List<Round> rounds = new List<Round>{round1, round2};
@@ -159,16 +159,16 @@ public class GamePageServiceTests
     }
     private static Game GenerateGameWithFourGroupsAndFourSubGroupInEachAndOneRoundLeftInRounds()
     {
-        Round round1 = new Round(false, 1, "test", "test", "test");
+        Round round1 = new Round(false, 1, "test", "test", "test", "sound");
         SubGroup subGroup1 = new SubGroup(false, 1, new List<Round>(){round1});
         Group group1 = new Group(false, 1, new int[]{subGroup1.SubGroupId});
-        Round round2 = new Round(true, 2, "test", "test", "test");
+        Round round2 = new Round(true, 2, "test", "test", "test", "sound");
         SubGroup subGroup2 = new SubGroup(true, 2, new List<Round>(){round2});
         Group group2 = new Group(true, 2, new int[]{subGroup2.SubGroupId});
-        Round round3 = new Round(true, 1, "test", "test", "test");
+        Round round3 = new Round(true, 1, "test", "test", "test", "sound");
         SubGroup subGroup3 = new SubGroup(true, 1, new List<Round>(){round3});
         Group group3 = new Group(true, 1, new int[]{subGroup3.SubGroupId});
-        Round round4 = new Round(true, 1, "test", "test", "test");
+        Round round4 = new Round(true, 1, "test", "test", "test", "sound");
         SubGroup subGroup4 = new SubGroup(true, 1, new List<Round>(){round4});
         Group group4 = new Group(true, 1, new int[]{subGroup4.SubGroupId});
         List<Round> rounds = new List<Round>{round1, round2, round3, round4};
