@@ -14,7 +14,7 @@
     <div class="logo-container">
         <img src="Images/JapImage.jpeg" alt="Game Logo" class="game-logo">
     </div>
-    <div class="stats-group">
+    <div class="stats-group" hidden="@HideRoundsAndMistakes">
       <span>Rounds: @currentRound / @totalRounds</span>
       <span>Mistakes: @mistakesDone / @mistakesAllowed</span>
     </div>
@@ -44,6 +44,7 @@
     bool englishIsDiasble; 
     bool hiraganaIsDiasble;
     bool hideInputElements;
+    bool HideRoundsAndMistakes;
     bool firstAnswer; 
     string? hiraganaInput; 
     string? englishInput; 
@@ -72,6 +73,9 @@
         game = (result.Entity as Game)!;
         mistakesAllowed = GetMistakesAllowed(gameLevel!);
         currentGroupId = game.CurrentGroupId;
+        totalRounds = game.GetSubGroupAmountOfRounds();
+        currentSubGroupId = game.CurrentSubGroupId;
+        currentRound = 1;
         InitializedPage();
     }
 
@@ -118,18 +122,22 @@
             {
                 if(currentGroupId != game.CurrentGroupId)
                 {
-                    AnnounceNewGroup();
+                    Announce("Well Done! Moving to the next group!");
                     StateHasChanged();
                     await Task.Delay(1700);
                     currentGroupId = game.CurrentGroupId;
                 }
                 if(currentSubGroupId != game.CurrentSubGroupId)
                 {
+                    Announce("Well Done! Adding more radicals!");
+                    StateHasChanged();
+                    await Task.Delay(1700);
                     totalRounds = game.GetSubGroupAmountOfRounds();
                     currentSubGroupId = game.CurrentSubGroupId;
                     currentRound = 1;
                 }
                 hideInputElements = false;
+                HideRoundsAndMistakes = false;
                 firstAnswer = true;
                 Kanji = game.CurrentRound.Kanji;
                 englishIsDiasble = true;
@@ -186,7 +194,7 @@
                 englishMark = "✓";
                 await PlaySound($"{game.CurrentRound.Sound}.mp3");
                 currentRound++;
-                await Task.Delay(2000);
+                await Task.Delay(800);
                 firstAnswer = true;
                 RefreshPage(true);
             }
@@ -208,9 +216,10 @@
         else return "white";
     }
 
-    private void AnnounceNewGroup()
+    private void Announce(string toAnnounce)
     {
-        Kanji = "Good job! Moving to the next group!";
+        Kanji = toAnnounce;
+        HideRoundsAndMistakes = true;
         hideInputElements = true;
     }
 
