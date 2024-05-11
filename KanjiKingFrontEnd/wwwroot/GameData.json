@@ -4,73 +4,73 @@
         "Rounds":  
         [
             {
-                "Kanji" : "KanjiTest1",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest2",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest3",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest4",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest5",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest6",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest7",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest8",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest9",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest10",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest11",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
             },
             {
-                "Kanji" : "KanjiTest12",
+                "Kanji" : "漢字",
                 "Hiragana" : "Test",
                 "English" : "Test",
                 "Sound" : "Test"
@@ -81,14 +81,156 @@
         "GameType" : "2",
         "Rounds" :
         [
-
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestK",
+                "English" : "TestK",
+                "Sound" : "TestK"
+            }
         ]
     },
     {
         "GameType" : "3",
         "Rounds" :
         [
-
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            },
+            {
+                "Kanji" : "漢字",
+                "Hiragana" : "TestM",
+                "English" : "TestM",
+                "Sound" : "TestM"
+            }
         ]
     }
 ]
