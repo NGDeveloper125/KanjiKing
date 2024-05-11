@@ -9,7 +9,7 @@
   <div class="title-container">
     <div class="title-group">
       <h1>Kanji King</h1>
-      <h2>Radicals Game</h2>
+            <h2>@GameTypeTitle Game</h2>
     </div>
     <div class="logo-container">
         <img src="Images/JapImage.jpeg" alt="Game Logo" class="game-logo">
@@ -40,6 +40,7 @@
 
     Audio? audioComponent;
     string? GameLevel;
+    string GameTypeTitle;
     string? Kanji;
     bool englishIsDiasble; 
     bool hiraganaIsDiasble;
@@ -71,6 +72,7 @@
             return;
         }
         game = (result.Entity as Game)!;
+        GameTypeTitle = game.GameType.ToString();
         mistakesAllowed = GetMistakesAllowed(gameLevel!);
         currentGroupId = game.CurrentGroupId;
         totalRounds = game.GetSubGroupAmountOfRounds();
@@ -129,7 +131,7 @@
                 }
                 if(currentSubGroupId != game.CurrentSubGroupId)
                 {
-                    Announce("Well Done! Adding more radicals!");
+                    Announce("Well Done! Lets go again add some more!");
                     StateHasChanged();
                     await Task.Delay(1700);
                     totalRounds = game.GetSubGroupAmountOfRounds();
