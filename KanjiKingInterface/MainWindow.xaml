@@ -1,0 +1,16 @@
+﻿<Window x:Class="KanjiKingInterface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Japanese Kanji Memory Game" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="/KanjiKingInterface;component/Resources/KanjiKingBackGround.jpg" 
+                    Stretch="UniformToFill"
+                    />
+    </Window.Background>
+    <Grid>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Width="500" Height="400" Background="Transparent"/>
+    </Grid>
+</Window>

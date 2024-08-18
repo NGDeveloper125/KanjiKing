@@ -1,0 +1,50 @@
+{
+  "Radicals": [
+    {
+      "Id": 1,
+      "Kanji": "RTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    },
+    {
+      "Id": 2,
+      "Kanji": "RTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    }
+  ],
+  "SingleKanjis": [
+    {
+      "Id": 1,
+      "Kanji": "KTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    },
+    {
+      "Id": 2,
+      "Kanji": "KTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    }
+  ],
+  "KanjiWords": [
+    {
+      "Id": 1,
+      "Kanji": "WTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    },
+    {
+      "Id": 2,
+      "Kanji": "WTest1",
+      "Hiragana": "test",
+      "English": "test",
+      "Sound": "te"
+    }
+  ]
+}
