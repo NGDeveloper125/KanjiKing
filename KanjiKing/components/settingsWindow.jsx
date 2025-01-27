@@ -41,7 +41,7 @@ function SettingsWindow(props) {
     }
 
     function handleOnStartGame() {
-        props.startGame(true, gameType);
+        props.startGame("play", gameType);
     }
 
     return (

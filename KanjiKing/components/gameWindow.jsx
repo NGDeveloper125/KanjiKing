@@ -1,4 +1,4 @@
-import { Button, Modal, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import getRoundData from '../domain/GameDataHandler';
 import ButtonSet from './buttonSet';
 import { useState, useEffect } from 'react';
@@ -91,9 +91,7 @@ function GameWindow(props) {
     }
 
     function GameOver() {
-      // setTimeout(() => {
-         props.endGame(false, "");
-    //   }, 2000);
+         props.endGame("end", "");
     }
 
     if (!roundData) {
