@@ -47,14 +47,14 @@ function SettingsWindow(props) {
     return (
         <View style={styles.mainContainer}>
                 <View style={styles.selectionContainer}>
-                <Text style={{fontSize : 30}}>Select Game</Text>
+                <Text style={{fontSize : 30, color : 'white', fontFamily : 'monospace'}}>Select Game</Text>
                 <View style={styles.settingsContainer}>
                     <BouncyCheckbox
                     nativeID='hiragana'
                     isChecked={hiraganaIsChecked}
                     onPress={(newValue) => handleOnCheck(newValue, "hiragana")}
                     />
-                    <Text style={{fontSize : 25}}>Hiragana</Text>
+                    <Text style={{fontSize : 25, color : 'white', fontFamily : 'monospace'}}>Hiragana</Text>
                 </View>
                 <View style={styles.settingsContainer}>
                     <BouncyCheckbox
@@ -62,7 +62,7 @@ function SettingsWindow(props) {
                     isChecked={katakanaIsChecked}
                     onPress={(newValue) => handleOnCheck(newValue, "katakana")}
                     />
-                    <Text style={{fontSize : 25}}>Katakana</Text>
+                    <Text style={{fontSize : 25, color : 'white', fontFamily : 'monospace'}}>Katakana</Text>
                 </View>
                 <View style={styles.settingsContainer}>
                     <BouncyCheckbox
@@ -70,7 +70,7 @@ function SettingsWindow(props) {
                     isChecked={kanjiIsChecked}
                     onPress={(newValue) => handleOnCheck(newValue, "kanji")}
                     />
-                    <Text style={{fontSize : 25}}>Kanji</Text>
+                    <Text style={{fontSize : 25, color : 'white', fontFamily : 'monospace'}}>Kanji</Text>
                 </View>
                 </View>
                 <View style={styles.startButtonContainer}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         height: '70%',
         width: '95%',
-        backgroundColor: 'green',
+        backgroundColor: 'transparent',
         alignItems: 'center',
         paddingBottom: 150,
       },

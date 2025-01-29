@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import getRoundData from '../domain/GameDataHandler';
 import ButtonSet from './buttonSet';
 import { useState, useEffect } from 'react';
@@ -43,7 +43,7 @@ function GameWindow(props) {
 
     function updateRoundData() {
       setGameStarted(true);
-      var newRoundData = getRoundData(props.gameType, roundData.lettersPlayed, 3);
+      var newRoundData = getRoundData(props.gameType, roundData.lettersPlayed, 6);
       if(newRoundData !== null) {
         setRoundData(
           newRoundData
@@ -63,7 +63,8 @@ function GameWindow(props) {
     }, []);
 
     function handleBackToMenu() {
-      props.endGame(false, "");
+      setGameStarted(false);
+      props.endGame("settings", "");
     }
 
     function CheckAnswer(answer, buttonColorSetter, rightButtonColorSetter) {
@@ -91,7 +92,8 @@ function GameWindow(props) {
     }
 
     function GameOver() {
-         props.endGame("end", "");
+        setGameStarted(false);
+        props.endGame("end", "");
     }
 
     if (!roundData) {
@@ -100,8 +102,10 @@ function GameWindow(props) {
 
     return (
           <View style={styles.mainContainer}>
-            <Text style={{fontSize : 50}}>{roundData.roundLetter.jap}</Text>
-            <ButtonSet letters={roundData.letterGroup} level={1} rightLetter={roundData.roundLetter.english} onAnswer={CheckAnswer} />
+            <ImageBackground style={styles.backImageContainer} source={require('../assets/images/mainpic.jpg')}>
+              <Text style={{fontSize : 50}}>{roundData.roundLetter.jap}</Text>
+              <ButtonSet letters={roundData.letterGroup} level={1} rightLetter={roundData.roundLetter.english} onAnswer={CheckAnswer} />
+            </ImageBackground>
             <View style={styles.exitContainer}>
               <Button title='Main Menu' onPress={handleBackToMenu} />
             </View>
@@ -113,11 +117,19 @@ const styles = StyleSheet.create({
   mainContainer: {
     height: '70%',
     width: '95%',
-    backgroundColor: 'green',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 80,
     paddingBottom: 10,
+  },
+  backImageContainer: {
+    flex : 1,
+    width : 300,
+    alignItems : 'center',
+    paddingTop : 50,
+    justifyContent : 'flex-start',
+    gap : 50
   }
 });
 

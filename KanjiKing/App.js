@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 import { useState } from 'react';
 import GameWindow from './components/gameWindow';
 import SettingsWindow from './components/settingsWindow';
@@ -49,11 +49,13 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
+    <ImageBackground 
+    source={require('./assets/images/background.jpg')}
+    style={styles.appContainer}>
       <StatusBar style="auto" />
       <TitleWindow score={score} round={round} />
       {switchWindow(gameStage)}
-    </View>
+    </ImageBackground>
   );
 }
 

@@ -7,16 +7,16 @@ function TitleWindow(props) {
     return (
         <View style={styles.TitleContainer}>
         <View style={styles.topContainer}>
-          <Text style={{fontSize : 20}}>Score</Text>
-          <Text style={{fontSize : 20}}>Hiragana</Text>
-          <Text style={{fontSize : 20}}>Round</Text>
+          <Text style={{fontSize : 20, color: 'white', fontFamily : 'monospace'}}>Score</Text>
+          <Text style={{fontSize : 20, color: 'white', fontFamily : 'monospace'}}>Hiragana</Text>
+          <Text style={{fontSize : 20, color: 'white', fontFamily : 'monospace'}}>Round</Text>
         </View>
         <View style={styles.midContainer}>
-          <Text style={{fontSize : 20}}>{props.score}</Text>
-          <Text style={{fontSize : 20}}>{props.round}</Text>
+          <Text style={{fontSize : 20, color: 'white', fontFamily : 'monospace'}}>{props.score}</Text>
+          <Text style={{fontSize : 20, color: 'white', fontFamily : 'monospace'}}>{props.round}</Text>
         </View>
         <View style={styles.botContainer}>
-          <Text style={{fontSize : 40}}>Kanji King</Text>
+          <Text style={{fontSize : 40, color: 'white', fontFamily : 'cursive'}}>Kanji King</Text>
         </View>
       </View>
     );
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     TitleContainer: {
         height: '20%',
         width: '95%',
-        backgroundColor: 'blue'
+        backgroundColor: 'transparent'
       },
       topContainer: {
         flexDirection: 'row',

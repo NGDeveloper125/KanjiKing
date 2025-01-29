@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     windowContainer: {
         height: '70%',
         width: '95%',
-        backgroundColor: 'green',
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: 150,
