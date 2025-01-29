@@ -1,6 +1,7 @@
 
-function HiraganaStore() {
-    return [
+const createHiraganaStore = () => {
+    const store = new Map();
+    const data = [
         {english: 'a', jap: 'あ'},
         {english: 'i', jap: 'い'},
         {english: 'u', jap: 'う'},
@@ -46,7 +47,17 @@ function HiraganaStore() {
         // {english: 'ro', jap: 'ろ'},
         // {english: 'wa', jap: 'わ'},
         // {english: 'o', jap: 'を'},
-    ]
-}
+    ];
 
-export default HiraganaStore;
+    data.forEach(item => {
+        if (!store.has(item.jap)) {
+            store.set(item.english, item.jap);
+        } else {
+            console.warn(`Duplicate entry found for ${item.jap}`);
+        }
+    });
+
+    return Array.from(store).map(([english, jap]) => ({ english, jap }));
+};
+
+export default createHiraganaStore;

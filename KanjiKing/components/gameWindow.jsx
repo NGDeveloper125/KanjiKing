@@ -1,117 +1,97 @@
 import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import getRoundData from '../domain/GameDataHandler';
 import ButtonSet from './buttonSet';
-import { useState, useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useGameState } from '../hooks/useGameState';
+import { useGameRound } from '../hooks/useGameRound';
 
-function GameWindow(props) {
-    const [roundData, setRoundData] = useState({
-      roundLetter: {
-        english : "",
-        jap : ""
-      },
-      letterGroup : [{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },{
-        english : "",
-        jap : ""
-      },],
-      lettersPlayed : []
-    });
-    const [gameStarted, setGameStarted] = useState(false); 
+const GameWindow = ({endGame, gameType, updateScore, updateRound, resetScore, resetRound}) => {
 
-    function updateRoundData() {
-      setGameStarted(true);
-      var newRoundData = getRoundData(props.gameType, roundData.lettersPlayed, 6);
-      if(newRoundData !== null) {
-        setRoundData(
-          newRoundData
-        );
-      } else {
-        console.log("game over");
-        GameOver();
+  const { gameState, startGame, endGameSession } = useGameState();
+
+  const onGameOver = useCallback(() => {
+    endGameSession();
+    endGame("end", "");
+  }, [endGame, endGameSession]);
+
+  const { roundData, updateRoundData, handleAnswer } = useGameRound(gameType, onGameOver);
+
+  useEffect(() => {
+    if (!gameState.isStarted) {
+      initializeGame();
+    }
+  }, []);
+
+  const initializeGame = useCallback(() => {
+    startGame();
+    resetRound();
+    resetScore();
+    updateRoundData();
+  }, [startGame, resetRound, resetScore, updateRoundData]);
+
+  const handleBackToMenu = useCallback(() => {
+    endGameSession();
+    endGame("settings", "");
+  }, [endGame, endGameSession]);
+
+  const checkAnswer = useCallback((answer, buttonColorSetter, rightButtonColorSetter) => {
+    handleAnswer(
+      answer, 
+      roundData.roundLetter.jap,
+      {
+        onCorrect: () => {
+          updateScore();
+          updateRound();
+        },
+        onIncorrect: () => {
+          updateRound();
+        },
+        setButtonColor: buttonColorSetter,
+        setRightButtonColor: rightButtonColorSetter,
+        onComplete: updateRoundData
       }
-    }
-
-    useEffect(() => {
-      if(!gameStarted) {
-        updateRoundData();
-        props.resetRound();
-        props.resetScore();
-      }
-    }, []);
-
-    function handleBackToMenu() {
-      setGameStarted(false);
-      props.endGame("settings", "");
-    }
-
-    function CheckAnswer(answer, buttonColorSetter, rightButtonColorSetter) {
-      if(answer === roundData.roundLetter.english) {
-        setTimeout(() => {
-          buttonColorSetter('white');
-          updateRoundData();
-        }, 900);
-        buttonColorSetter('lawngreen');
-        // play success sound
-        props.updateScore();
-        props.updateRound();
-      }
-      else {
-        setTimeout(() => {
-          buttonColorSetter('white');
-          rightButtonColorSetter(roundData.roundLetter.english, 'white');
-          updateRoundData();
-        }, 1200);
-        buttonColorSetter('red');
-        rightButtonColorSetter(roundData.roundLetter.english, 'lawngreen');
-        // play unsuccess sound
-        props.updateRound();
-      }
-    }
-
-    function GameOver() {
-        setGameStarted(false);
-        props.endGame("end", "");
-    }
-
-    if (!roundData) {
-      return null;
-    }
-
-    return (
-          <View style={styles.mainContainer}>
-            <ImageBackground style={styles.backImageContainer} source={require('../assets/images/mainpic.jpg')}>
-              <Text style={{fontSize : 50}}>{roundData.roundLetter.jap}</Text>
-              <ButtonSet letters={roundData.letterGroup} level={1} rightLetter={roundData.roundLetter.english} onAnswer={CheckAnswer} />
-            </ImageBackground>
-            <View style={styles.exitContainer}>
-              <Button title='Main Menu' onPress={handleBackToMenu} />
-            </View>
-        </View>
     );
-}
+  }, [roundData, updateScore, updateRound, handleAnswer, updateRoundData]);
+
+  if (!roundData || !roundData.letterGroup) {
+    return <LoadingView />;
+  }
+
+  return (
+    <View style={styles.mainContainer}>
+      <ImageBackground 
+        style={styles.backImageContainer} 
+        source={require('../assets/images/mainpic.jpg')}
+      >
+        <View style={styles.roundLetterContainer}>
+          <Text style={{fontSize: 50, color: 'white', padding: 5}}>
+            {roundData.roundLetter.jap}
+          </Text>
+        </View>
+        {roundData.letterGroup.length > 0 && (
+          
+        <ButtonSet 
+          letters={roundData.letterGroup}
+          level={1}
+          onAnswer={checkAnswer}
+        />
+        )}
+      </ImageBackground>
+      
+      <View style={styles.exitContainer}>
+        <Button 
+          title='Main Menu' 
+          onPress={handleBackToMenu}
+        />
+      </View>
+    </View>
+  );
+};
+
+const LoadingView = () => (
+  <View style={styles.loadingContainer}>
+    <Text>Loading...</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -124,12 +104,23 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   backImageContainer: {
-    flex : 1,
-    width : 300,
-    alignItems : 'center',
-    paddingTop : 50,
-    justifyContent : 'flex-start',
-    gap : 50
+    flex: 1,
+    width: 300,
+    alignItems: 'center',
+    paddingTop: 50,
+    justifyContent: 'flex-start',
+    gap: 50
+  },
+  roundLetterContainer : {
+    backgroundColor: 'black'
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  exitContainer: {
+    marginTop: 20
   }
 });
 

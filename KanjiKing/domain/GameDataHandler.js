@@ -1,15 +1,15 @@
-import HiraganaStore from "../components/hiraganaStore"
+import createHiraganaStore from "../storage/hiraganaStore";
 
 function getGameLetters(gameType) {
     var letters = [];
     switch (gameType) {
         case "hiragana":
-            letters = HiraganaStore();
+            letters = createHiraganaStore();
             break;
         case "katakana":
             //letters = KatakanaStore();
             break;
-        case "hiragana":
+        case "kanji":
             //letters = KanjiStore();
             break;
         default:
@@ -76,7 +76,9 @@ function getRoundData(gameType, playedLetters, level) {
 
     console.log("round letter: " + roundLetter.english + " " + roundLetter.jap);
     const roundFakeLetters = generateRoundFakeLetters(letters, roundLetter, level);
-
+    roundFakeLetters.map((letter => {
+        console.log("fake letter: " + letter.english + " " + letter.jap);
+    }))
     return ({
         roundLetter: roundLetter,
         letterGroup : roundFakeLetters,
