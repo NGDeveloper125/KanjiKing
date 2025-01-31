@@ -10,11 +10,13 @@ export default function App() {
 
   const [gameStage, setGameStage] = useState("settings");
   const [gameType, setGameType] = useState("hiragana");
+  const [gameLevel, setGameLevel] = useState(1);
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(0);
 
-  function switchMainWindow(value, gameType) {
+  function switchMainWindow(value, gameType, level) {
     setGameType(gameType);
+    setGameLevel(level);
     setGameStage(value);
   }
 
@@ -39,7 +41,7 @@ export default function App() {
       case "settings":
         return (<SettingsWindow startGame={switchMainWindow} />);
       case "play":
-        return (<GameWindow endGame={switchMainWindow} gameType={gameType} updateScore={updateScore}  
+        return (<GameWindow endGame={switchMainWindow} gameType={gameType} gameLevel={gameLevel} updateScore={updateScore}  
           updateRound={updateRound} resetScore={resetScore}  resetRound={resetRound}/>); 
       case "end":
         return (<EndGameWindow  backToMenu={switchMainWindow} score={score} round={round}/>);

@@ -36,12 +36,12 @@ function generateRoundFakeLetters(letters, roundLetter, level) {
     );
 
     var pickedLetters = [];
-    while(pickedLetters.length < (level - 1)) {
+    while(pickedLetters.length < level) {
         let randomLetter = filteredLetters[Math.floor(Math.random() * filteredLetters.length)];
         
         // Check if randomLetter is defined and not already picked
         if (randomLetter && !pickedLetters.some(letter => letter.jap === randomLetter.jap)) {
-            pickedLetters.push(randomLetter);
+            pickedLetters.push(randomLetter); 
         }
     }
 
@@ -75,7 +75,7 @@ function getRoundData(gameType, playedLetters, level) {
     }
 
     console.log("round letter: " + roundLetter.english + " " + roundLetter.jap);
-    const roundFakeLetters = generateRoundFakeLetters(letters, roundLetter, level);
+    const roundFakeLetters = generateRoundFakeLetters(letters, roundLetter, translateLevel(level));
     roundFakeLetters.map((letter => {
         console.log("fake letter: " + letter.english + " " + letter.jap);
     }))
@@ -84,6 +84,19 @@ function getRoundData(gameType, playedLetters, level) {
         letterGroup : roundFakeLetters,
         lettersPlayed : [...playedLetters, roundLetter]
       });
+}
+
+function translateLevel(level) {
+    switch (level) {
+        case 1:
+            return 2;
+        case 2:
+            return 5;
+        case 3:
+            return 8;
+        default:
+            break;
+    }
 }
 
 export default getRoundData;

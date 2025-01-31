@@ -4,7 +4,7 @@ import { useEffect, useCallback } from 'react';
 import { useGameState } from '../hooks/useGameState';
 import { useGameRound } from '../hooks/useGameRound';
 
-const GameWindow = ({endGame, gameType, updateScore, updateRound, resetScore, resetRound}) => {
+const GameWindow = ({endGame, gameType, gameLevel, updateScore, updateRound, resetScore, resetRound}) => {
 
   const { gameState, startGame, endGameSession } = useGameState();
 
@@ -13,7 +13,7 @@ const GameWindow = ({endGame, gameType, updateScore, updateRound, resetScore, re
     endGame("end", "");
   }, [endGame, endGameSession]);
 
-  const { roundData, updateRoundData, handleAnswer } = useGameRound(gameType, onGameOver);
+  const { roundData, updateRoundData, handleAnswer } = useGameRound(gameType, gameLevel, onGameOver);
 
   useEffect(() => {
     if (!gameState.isStarted) {
@@ -71,7 +71,7 @@ const GameWindow = ({endGame, gameType, updateScore, updateRound, resetScore, re
           
         <ButtonSet 
           letters={roundData.letterGroup}
-          level={1}
+          level={gameLevel}
           onAnswer={checkAnswer}
         />
         )}

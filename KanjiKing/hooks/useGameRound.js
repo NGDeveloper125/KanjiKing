@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import getRoundData from '../domain/GameDataHandler';
 
-export const useGameRound = (gameType, onGameOver) => {
+export const useGameRound = (gameType, gameLevel, onGameOver) => {
   const [roundData, setRoundData] = useState({
     roundLetter: { english: "", jap: "" },
     letterGroup: Array(9).fill({ english: "", jap: "" }),
@@ -9,7 +9,7 @@ export const useGameRound = (gameType, onGameOver) => {
   });
 
   const updateRoundData = useCallback(() => {
-    const newRoundData = getRoundData(gameType, roundData.lettersPlayed, 3);
+    const newRoundData = getRoundData(gameType, roundData.lettersPlayed, gameLevel);
     
     if (newRoundData) {
       setRoundData(newRoundData);
