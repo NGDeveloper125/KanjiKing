@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import { useState } from 'react';
 import GameWindow from './components/gameWindow';
 import SettingsWindow from './components/settingsWindow';

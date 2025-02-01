@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native';
 
 function endGameWindow(props) {
 
@@ -8,12 +8,12 @@ function endGameWindow(props) {
     
     return (
         <View style={styles.windowContainer}>
-            <View style={styles.topTitleContainer}>
-                <Text style={{fontSize : 40}}>Game Over!</Text>
-            </View>
+            <ImageBackground source={require('../assets/images/end_game_image.jpg')} style={styles.topTitleContainer}>
+                <Text style={{fontSize : 40,color: 'black', fontStyle: 'italic', fontWeight : 'bold'}}>Game Over!</Text>
+            </ImageBackground>
             <View style={styles.midTitleContainer}>
-                <Text style={{fontSize : 30}}>You scored {props.score} points</Text>
-                <Text style={{fontSize : 30}}>In {props.round} rounds!</Text>
+                <Text style={{fontSize : 30, color: 'white'}}>You scored {props.score} points</Text>
+                <Text style={{fontSize : 30, color: 'white'}}>In {props.round} rounds!</Text>
             </View>
             <View style={styles.buttonContainer}>
                 <Button title='Main Menu' onPress={goToMainMenu}/>
@@ -34,7 +34,11 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     topTitleContainer : {
-        
+        flex : 1,
+        width : 300,
+        height : 300,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     midTitleContainer : {
         alignItems: 'center'
