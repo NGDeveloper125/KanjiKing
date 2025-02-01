@@ -28,7 +28,7 @@ const ButtonSet = ({ letters, level, onAnswer }) => {
             styles.button,
             {
                 backgroundColor : buttonColors[index],
-                width : 80,
+                width : 95,
             }
         ]}
         onPress={() => handleAnswer(letter.jap, index)}>

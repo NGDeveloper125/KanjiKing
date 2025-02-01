@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   backImageContainer: {
     flex: 1,
-    width: 300,
+    width: 345,
     alignItems: 'center',
     paddingTop: 50,
     justifyContent: 'flex-start',

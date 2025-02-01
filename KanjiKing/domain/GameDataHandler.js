@@ -1,4 +1,5 @@
 import createHiraganaStore from "../storage/hiraganaStore";
+import createKatakanaStore from "../storage/katakanaStore";
 
 function getGameLetters(gameType) {
     var letters = [];
@@ -7,7 +8,7 @@ function getGameLetters(gameType) {
             letters = createHiraganaStore();
             break;
         case "katakana":
-            //letters = KatakanaStore();
+            letters = createKatakanaStore();
             break;
         case "kanji":
             //letters = KanjiStore();
