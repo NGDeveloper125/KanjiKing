@@ -17,12 +17,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "package": "com.ngdeveloper.kanjiking",
+        "versionCode": 2
+      },
+      "package": "com.ngdeveloper.KanjiKing"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "caafb142-6dee-42eb-830f-00ab1cae9d9e"
+      }
     }
   }
 }
