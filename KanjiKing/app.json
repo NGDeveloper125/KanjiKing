@@ -2,7 +2,7 @@
   "expo": {
     "name": "KanjiKing",
     "slug": "KanjiKing",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,6 +29,12 @@
       "eas": {
         "projectId": "caafb142-6dee-42eb-830f-00ab1cae9d9e"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/caafb142-6dee-42eb-830f-00ab1cae9d9e"
     }
   }
 }

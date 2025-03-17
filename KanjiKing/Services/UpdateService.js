@@ -4,7 +4,7 @@ import * as Updates from 'expo-updates';
 class UpdateService {
     static currentVersion = Constants.expoConfig?.version ?? '1.0.0';
     // Replace with your GitHub raw URL
-    static versionUrl = 'https://raw.githubusercontent.com/NGDeveloper125/KanjiKing/main/version.json';
+    static versionUrl = `https://raw.githubusercontent.com/NGDeveloper125/KanjiKing/main/version.json?t=${Date.now()}`;
 
     static async checkForUpdates() {
         try {
@@ -24,7 +24,10 @@ class UpdateService {
                 console.log('Checking for Expo update...');
                 const update = await Updates.checkForUpdateAsync();
                 console.log('Expo update available:', update.isAvailable);
-                // ... rest of the code
+                if (update.isAvailable) {
+                    await Updates.fetchUpdateAsync();
+                    await Updates.reloadAsync();
+                }
             }
     
             return {
