@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, ImageBackground } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUpdateCheck } from './hooks/useUpdateCheck';
 import GameWindow from './components/gameWindow';
 import SettingsWindow from './components/settingsWindow';
 import TitleWindow from './components/titleWindow';
@@ -13,6 +14,11 @@ export default function App() {
   const [gameLevel, setGameLevel] = useState(1);
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(0);
+  const { checkForUpdates, isChecking } = useUpdateCheck();
+
+  useEffect(() => {
+    checkForUpdates();
+  }, []);
 
   function switchMainWindow(value, gameType, level) {
     setGameType(gameType);
