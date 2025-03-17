@@ -17,7 +17,7 @@ export default function App() {
   const { checkForUpdates, isChecking } = useUpdateCheck();
 
   useEffect(() => {
-    checkForUpdates();
+      checkForUpdates();
   }, []);
 
   function switchMainWindow(value, gameType, level) {

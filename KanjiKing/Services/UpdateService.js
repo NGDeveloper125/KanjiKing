@@ -8,23 +8,25 @@ class UpdateService {
 
     static async checkForUpdates() {
         try {
+            console.log('Current Version:', this.currentVersion);
             const response = await fetch(this.versionUrl);
             
             if (!response.ok) {
                 throw new Error('Failed to check for updates');
             }
-
+    
             const data = await response.json();
+            console.log('Latest Version from server:', data.latestVersion);
             const isUpdateAvailable = data.latestVersion > this.currentVersion;
-
+            console.log('Update available:', isUpdateAvailable);
+    
             if (isUpdateAvailable) {
+                console.log('Checking for Expo update...');
                 const update = await Updates.checkForUpdateAsync();
-                if (update.isAvailable) {
-                    await Updates.fetchUpdateAsync();
-                    await Updates.reloadAsync();
-                }
+                console.log('Expo update available:', update.isAvailable);
+                // ... rest of the code
             }
-
+    
             return {
                 version: data.latestVersion,
                 isUpdateAvailable,
